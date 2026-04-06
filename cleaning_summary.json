@@ -1,0 +1,494 @@
+{
+  "files_processed": 53,
+  "input_files": [
+    "Datasets\\Citibike\\202501-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202501-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202501-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202502-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202502-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202502-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202503-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202503-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202503-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202503-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202504-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202504-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202504-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202504-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202505-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202505-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202505-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202505-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202505-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202506-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202506-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202506-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202506-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202506-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202507-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202507-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202507-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202507-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202507-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202508-citibike-tripdata_6.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202509-citibike-tripdata_6.csv",
+    "Datasets\\Citibike\\202510-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202510-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202510-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202510-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202510-citibike-tripdata_5.csv",
+    "Datasets\\Citibike\\202511-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202511-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202511-citibike-tripdata_3.csv",
+    "Datasets\\Citibike\\202511-citibike-tripdata_4.csv",
+    "Datasets\\Citibike\\202512-citibike-tripdata_1.csv",
+    "Datasets\\Citibike\\202512-citibike-tripdata_2.csv",
+    "Datasets\\Citibike\\202512-citibike-tripdata_3.csv"
+  ],
+  "output_cleaned": "cleaned_combined.csv",
+  "output_stations": "station_lookup.csv",
+  "station_count": 2428,
+  "chunksize": 250000,
+  "per_file": [
+    {
+      "file": "Datasets\\Citibike\\202501-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 997581,
+      "rows_dropped_missing": 2419,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202501-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 997762,
+      "rows_dropped_missing": 2238,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202501-citibike-tripdata_3.csv",
+      "rows_read": 124475,
+      "rows_written": 124338,
+      "rows_dropped_missing": 137,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 1
+    },
+    {
+      "file": "Datasets\\Citibike\\202502-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 997181,
+      "rows_dropped_missing": 2819,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202502-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 997861,
+      "rows_dropped_missing": 2139,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202502-citibike-tripdata_3.csv",
+      "rows_read": 31257,
+      "rows_written": 30920,
+      "rows_dropped_missing": 337,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 1
+    },
+    {
+      "file": "Datasets\\Citibike\\202503-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 999550,
+      "rows_dropped_missing": 450,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202503-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 991586,
+      "rows_dropped_missing": 8414,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202503-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 999573,
+      "rows_dropped_missing": 427,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202503-citibike-tripdata_4.csv",
+      "rows_read": 168271,
+      "rows_written": 168191,
+      "rows_dropped_missing": 80,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 1
+    },
+    {
+      "file": "Datasets\\Citibike\\202504-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 996313,
+      "rows_dropped_missing": 3687,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202504-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 999207,
+      "rows_dropped_missing": 793,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202504-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 994537,
+      "rows_dropped_missing": 5463,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202504-citibike-tripdata_4.csv",
+      "rows_read": 724596,
+      "rows_written": 723757,
+      "rows_dropped_missing": 839,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 3
+    },
+    {
+      "file": "Datasets\\Citibike\\202505-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 994505,
+      "rows_dropped_missing": 5495,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202505-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 998393,
+      "rows_dropped_missing": 1607,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202505-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 993485,
+      "rows_dropped_missing": 6515,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202505-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 999581,
+      "rows_dropped_missing": 419,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202505-citibike-tripdata_5.csv",
+      "rows_read": 325553,
+      "rows_written": 325409,
+      "rows_dropped_missing": 144,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 2
+    },
+    {
+      "file": "Datasets\\Citibike\\202506-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 992315,
+      "rows_dropped_missing": 7685,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202506-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 999581,
+      "rows_dropped_missing": 419,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202506-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 999340,
+      "rows_dropped_missing": 660,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202506-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 999472,
+      "rows_dropped_missing": 528,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202506-citibike-tripdata_5.csv",
+      "rows_read": 759345,
+      "rows_written": 749998,
+      "rows_dropped_missing": 9347,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202507-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 991120,
+      "rows_dropped_missing": 8880,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202507-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 999387,
+      "rows_dropped_missing": 613,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202507-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 997786,
+      "rows_dropped_missing": 2214,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202507-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 989492,
+      "rows_dropped_missing": 10508,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202507-citibike-tripdata_5.csv",
+      "rows_read": 988053,
+      "rows_written": 987353,
+      "rows_dropped_missing": 700,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 993444,
+      "rows_dropped_missing": 6556,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 999528,
+      "rows_dropped_missing": 472,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 999469,
+      "rows_dropped_missing": 531,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 999548,
+      "rows_dropped_missing": 452,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_5.csv",
+      "rows_read": 1000000,
+      "rows_written": 993334,
+      "rows_dropped_missing": 6666,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202508-citibike-tripdata_6.csv",
+      "rows_read": 121533,
+      "rows_written": 121486,
+      "rows_dropped_missing": 47,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 1
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 994336,
+      "rows_dropped_missing": 5664,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 999590,
+      "rows_dropped_missing": 410,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 993192,
+      "rows_dropped_missing": 6808,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 999442,
+      "rows_dropped_missing": 558,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_5.csv",
+      "rows_read": 1000000,
+      "rows_written": 999504,
+      "rows_dropped_missing": 496,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202509-citibike-tripdata_6.csv",
+      "rows_read": 287447,
+      "rows_written": 286645,
+      "rows_dropped_missing": 802,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 2
+    },
+    {
+      "file": "Datasets\\Citibike\\202510-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 999242,
+      "rows_dropped_missing": 758,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202510-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 994671,
+      "rows_dropped_missing": 5329,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202510-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 993633,
+      "rows_dropped_missing": 6367,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202510-citibike-tripdata_4.csv",
+      "rows_read": 1000000,
+      "rows_written": 998631,
+      "rows_dropped_missing": 1369,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202510-citibike-tripdata_5.csv",
+      "rows_read": 731900,
+      "rows_written": 730025,
+      "rows_dropped_missing": 1875,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 3
+    },
+    {
+      "file": "Datasets\\Citibike\\202511-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 999078,
+      "rows_dropped_missing": 922,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202511-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 995303,
+      "rows_dropped_missing": 4697,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202511-citibike-tripdata_3.csv",
+      "rows_read": 1000000,
+      "rows_written": 996022,
+      "rows_dropped_missing": 3978,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202511-citibike-tripdata_4.csv",
+      "rows_read": 417052,
+      "rows_written": 416916,
+      "rows_dropped_missing": 136,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 2
+    },
+    {
+      "file": "Datasets\\Citibike\\202512-citibike-tripdata_1.csv",
+      "rows_read": 1000000,
+      "rows_written": 996890,
+      "rows_dropped_missing": 3110,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202512-citibike-tripdata_2.csv",
+      "rows_read": 1000000,
+      "rows_written": 996719,
+      "rows_dropped_missing": 3281,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 4
+    },
+    {
+      "file": "Datasets\\Citibike\\202512-citibike-tripdata_3.csv",
+      "rows_read": 91620,
+      "rows_written": 91532,
+      "rows_dropped_missing": 88,
+      "rows_dropped_duplicate_within_chunk": 0,
+      "chunks": 1
+    }
+  ],
+  "totals": {
+    "rows_read": 45771102,
+    "rows_written": 45623754,
+    "rows_dropped_missing": 147348,
+    "rows_dropped_duplicate_within_chunk": 0
+  }
+}
