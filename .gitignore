@@ -1,3 +1,10 @@
+<<<<<<< HEAD
 Datasets/Citibike
 outputs/
 cleaned_combined.csv
+=======
+Datasets\Citibike\*.csv
+Datasets/Citibike/Citibike.zip
+cleaned_combined.csv
+outputs/
+>>>>>>> 9bd4faa (EDA start)
