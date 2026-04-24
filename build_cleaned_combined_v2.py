@@ -1,20 +1,16 @@
 #!/usr/bin/env python3
 """
 Build a lean combined Citi Bike CSV and a station lookup table using chunked reads.
+v2 additions:
+  - Fetches GBFS station capacity and merges it into the station lookup table.
+  - The --no-gbfs flag skips the fetch if you're offline.
 
 Typical usage:
-    python build_cleaned_combined.py \
+    python build_cleaned_combined_v2.py \
         --input-dir "Datasets/Citibike" \
         --pattern "2025*.csv" \
         --output-cleaned "cleaned_combined.csv" \
         --output-stations "station_lookup.csv"
-
-This script:
-1. Reads monthly Citi Bike trip CSV files in chunks
-2. Keeps only the columns useful for station-level hourly modeling
-3. Drops rows missing critical station/timestamp fields
-4. Writes a lean combined CSV incrementally
-5. Builds a station lookup table with station_id, station_name, lat, lng
 """
 
 from __future__ import annotations
@@ -27,6 +23,12 @@ from pathlib import Path
 from typing import Dict, Iterable, List, Optional
 
 import pandas as pd
+
+try:
+    import requests
+    REQUESTS_AVAILABLE = True
+except ImportError:
+    REQUESTS_AVAILABLE = False
 
 
 KEEP_COLS = [
@@ -79,6 +81,8 @@ DTYPE_MAP = {
     "member_casual": "string",
 }
 
+GBFS_STATION_INFO_URL = "https://gbfs.lyft.com/gbfs/2.3/bkn/en/station_information.json"
+
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(description="Build a lean combined Citi Bike CSV in chunks.")
@@ -89,7 +93,31 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-summary", default="cleaning_summary.json", help="Path to output JSON summary")
     parser.add_argument("--chunksize", type=int, default=250_000, help="Rows per chunk when reading source CSVs")
     parser.add_argument("--dedupe-within-chunk", action="store_true", help="Drop duplicate ride_id rows within each chunk if ride_id exists")
+    parser.add_argument("--no-gbfs", action="store_true", help="Skip GBFS capacity fetch (use if offline)")
     return parser.parse_args()
+
+
+def fetch_gbfs_capacity(url: str, timeout: int = 15) -> Dict[str, int]:
+    """
+    Fetch station capacity from the GBFS station_information feed.
+    Returns a dict mapping station_id (str) -> capacity (int).
+    NOTE: This is live/current data. Historical capacity is not available via GBFS.
+    """
+    if not REQUESTS_AVAILABLE:
+        print("WARNING: 'requests' package not installed. Skipping GBFS capacity fetch.")
+        print("  Install with: pip install requests")
+        return {}
+    try:
+        resp = requests.get(url, timeout=timeout)
+        resp.raise_for_status()
+        stations = resp.json()["data"]["stations"]
+        cap_map = {str(s["station_id"]): int(s.get("capacity", 0)) for s in stations}
+        active = sum(1 for v in cap_map.values() if v > 0)
+        print(f"GBFS: fetched capacity for {len(cap_map)} stations ({active} active, {len(cap_map)-active} inactive/placeholder)")
+        return cap_map
+    except Exception as e:
+        print(f"WARNING: GBFS capacity fetch failed ({e}). Station lookup will be saved without capacity.")
+        return {}
 
 
 def normalize_columns(df: pd.DataFrame) -> pd.DataFrame:
@@ -125,26 +153,21 @@ def update_station_lookup(df: pd.DataFrame, station_lookup: Dict[str, Dict[str, 
         ("start_station_id", "start_station_name", "start_lat", "start_lng"),
         ("end_station_id", "end_station_name", "end_lat", "end_lng"),
     ]
-
     for id_col, name_col, lat_col, lng_col in mappings:
         present_cols = [c for c in [id_col, name_col, lat_col, lng_col] if c in df.columns]
         if id_col not in present_cols:
             continue
-
         station_df = df[present_cols].dropna(subset=[id_col]).copy()
         if station_df.empty:
             continue
-
         station_df[id_col] = station_df[id_col].astype("string").str.strip()
         station_df = station_df[station_df[id_col].notna()]
         station_df = station_df.drop_duplicates(subset=[id_col])
-
         for row in station_df.itertuples(index=False):
             record = dict(zip(station_df.columns, row))
             station_id = str(record.get(id_col)).strip()
             if not station_id or station_id == "<NA>":
                 continue
-
             existing = station_lookup.get(station_id, {})
             candidate = {
                 "station_id": station_id,
@@ -152,7 +175,6 @@ def update_station_lookup(df: pd.DataFrame, station_lookup: Dict[str, Dict[str, 
                 "lat": record.get(lat_col),
                 "lng": record.get(lng_col),
             }
-
             merged = {
                 "station_id": station_id,
                 "station_name": existing.get("station_name") if pd.notna(existing.get("station_name")) else candidate.get("station_name"),
@@ -178,7 +200,6 @@ def process_file(
         "rows_dropped_duplicate_within_chunk": 0,
         "chunks": 0,
     }
-
     reader = pd.read_csv(
         file_path,
         chunksize=chunksize,
@@ -186,72 +207,70 @@ def process_file(
         low_memory=False,
         usecols=lambda c: c.strip().lower() in RAW_COLS,
     )
-
     mode = "w" if write_header else "a"
-
     for chunk_idx, chunk in enumerate(reader, start=1):
         stats["chunks"] += 1
         stats["rows_read"] += len(chunk)
-
         chunk = normalize_columns(chunk)
-
         if dedupe_within_chunk and "ride_id" in chunk.columns:
             before = len(chunk)
             chunk = chunk.drop_duplicates(subset=["ride_id"])
             stats["rows_dropped_duplicate_within_chunk"] += before - len(chunk)
-
         update_station_lookup(chunk, station_lookup)
-
         chunk = clean_text_columns(
             chunk,
-            [
-                "rideable_type",
-                "started_at",
-                "ended_at",
-                "start_station_name",
-                "start_station_id",
-                "end_station_name",
-                "end_station_id",
-                "member_casual",
-            ],
+            ["rideable_type", "started_at", "ended_at", "start_station_name",
+             "start_station_id", "end_station_name", "end_station_id", "member_casual"],
         )
         chunk = standardize_timestamps(chunk)
-
         present_required = [c for c in REQUIRED_FOR_CLEANED if c in chunk.columns]
         before_dropna = len(chunk)
         chunk = chunk.dropna(subset=present_required)
         stats["rows_dropped_missing"] += before_dropna - len(chunk)
-
         cleaned = chunk[[c for c in KEEP_COLS if c in chunk.columns]].copy()
         cleaned.to_csv(output_cleaned, mode=mode, header=write_header, index=False, quoting=csv.QUOTE_MINIMAL)
-
         mode = "a"
         write_header = False
         stats["rows_written"] += len(cleaned)
-
         print(
             f"[{file_path.name}] chunk {chunk_idx}: "
             f"read={stats['rows_read']:,} written={stats['rows_written']:,} "
             f"dropped_missing={stats['rows_dropped_missing']:,}"
         )
-
     return stats
 
 
-def write_station_lookup(station_lookup: Dict[str, Dict[str, object]], output_stations: Path) -> int:
+def write_station_lookup(
+    station_lookup: Dict[str, Dict[str, object]],
+    output_stations: Path,
+    gbfs_capacity: Dict[str, int],
+) -> int:
     if not station_lookup:
-        pd.DataFrame(columns=["station_id", "station_name", "lat", "lng"]).to_csv(output_stations, index=False)
+        pd.DataFrame(columns=["station_id", "station_name", "lat", "lng", "capacity", "is_active_station"]).to_csv(output_stations, index=False)
         return 0
 
     station_df = pd.DataFrame(station_lookup.values())
     station_df = station_df.sort_values("station_id").reset_index(drop=True)
+
+    # Merge GBFS capacity
+    if gbfs_capacity:
+        station_df["capacity"] = station_df["station_id"].map(gbfs_capacity)
+        median_cap = station_df["capacity"].median()
+        n_matched = station_df["capacity"].notna().sum()
+        print(f"Capacity: matched {n_matched}/{len(station_df)} stations from GBFS ({n_matched/len(station_df)*100:.1f}%)")
+        station_df["capacity"] = station_df["capacity"].fillna(median_cap).astype("float32")
+        station_df["is_active_station"] = (station_df["capacity"] > 0).astype("int8")
+        # Note in the output about data currency
+        print("NOTE: GBFS capacity reflects current station config, not historical 2025 values.")
+    else:
+        print("No GBFS capacity data — 'capacity' column will not be in station_lookup.csv")
+
     station_df.to_csv(output_stations, index=False)
     return len(station_df)
 
 
 def main() -> None:
     args = parse_args()
-
     input_dir = Path(args.input_dir)
     output_cleaned = Path(args.output_cleaned)
     output_stations = Path(args.output_stations)
@@ -261,6 +280,14 @@ def main() -> None:
     print(f"Found {len(files)} input files")
     for f in files:
         print(f" - {f}")
+
+    # Fetch GBFS capacity early so it's embedded in station_lookup
+    gbfs_capacity: Dict[str, int] = {}
+    if not args.no_gbfs:
+        print("\nFetching GBFS station capacity...")
+        gbfs_capacity = fetch_gbfs_capacity(GBFS_STATION_INFO_URL)
+    else:
+        print("--no-gbfs flag set; skipping GBFS capacity fetch.")
 
     if output_cleaned.exists():
         output_cleaned.unlink()
@@ -283,7 +310,7 @@ def main() -> None:
         all_stats.append(stats)
         write_header = False
 
-    station_count = write_station_lookup(station_lookup, output_stations)
+    station_count = write_station_lookup(station_lookup, output_stations, gbfs_capacity)
 
     summary = {
         "files_processed": len(files),
@@ -291,6 +318,8 @@ def main() -> None:
         "output_cleaned": str(output_cleaned),
         "output_stations": str(output_stations),
         "station_count": station_count,
+        "gbfs_capacity_fetched": len(gbfs_capacity) > 0,
+        "gbfs_stations_in_feed": len(gbfs_capacity),
         "chunksize": args.chunksize,
         "per_file": all_stats,
         "totals": {

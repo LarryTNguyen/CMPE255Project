@@ -58,6 +58,8 @@
   "output_cleaned": "cleaned_combined.csv",
   "output_stations": "station_lookup.csv",
   "station_count": 2428,
+  "gbfs_capacity_fetched": false,
+  "gbfs_stations_in_feed": 0,
   "chunksize": 250000,
   "per_file": [
     {
